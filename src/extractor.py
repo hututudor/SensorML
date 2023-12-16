@@ -10,6 +10,3 @@ def extract_dataset() -> list[list]:
         dataset = list(csv.reader(file))
 
     return dataset
-
-
-print(extract_dataset())

@@ -1,11 +1,12 @@
 from datetime import datetime
 
-from src.extractor import extract_dataset
-
+import numpy as np
 import pandas as pd
 from prophet import Prophet
 from prophet.diagnostics import cross_validation
-import numpy as np
+from prophet.plot import plot_plotly
+
+from src.extractor import extract_dataset
 
 DATE_FORMAT = '%m/%d/%Y %H:%M'
 
@@ -24,7 +25,7 @@ def predict_next_48h(model, df):
 
     forecast_48h = model.predict(future_48h_df)
 
-    return forecast_48h[['ds', 'yhat']]
+    return forecast_48h
 
 
 def get_cross_validation_error(model, df):
@@ -42,25 +43,36 @@ def get_cross_validation_error(model, df):
     return np.mean(np.abs(actual_values - predictions))
 
 
+def show_figure(fig, title):
+    fig.update_layout(title_text=title, title_x=0.5,
+                      xaxis=dict(rangeselector=dict(buttons=list([dict(step="all")])), rangeslider=dict(visible=True),
+                                 type="date"))
+    fig.show()
+
+
 def main():
     output_file = "../out/forecasts.csv"
 
     data = extract_dataset()
 
     df = pd.DataFrame(data[1:], columns=data[0])
-    df.head()
+    df = df.head(168)
 
-    columns_to_predict = ['pres', 'temp1', 'umid', 'temp2', 'V450', 'B500', 'G550', 'Y570', 'O600', 'R650', 'temps1', 'temps2', 'lumina']
+    columns_to_predict = ['pres', 'temp1', 'umid', 'temp2', 'V450', 'B500', 'G550', 'Y570', 'O600', 'R650', 'temps1',
+                          'temps2', 'lumina']
 
     all_forecasts = pd.DataFrame()
     column_cv_results = {}
+
+    figures = []
 
     for column in columns_to_predict:
         model = train_prophet_model(df, column)
 
         forecast = predict_next_48h(model, df)
-        all_forecasts[column] = forecast['yhat']
+        all_forecasts[column] = forecast[['yhat']]
 
+        figures.append(plot_plotly(model, forecast))
         column_cv_results[column] = get_cross_validation_error(model, df)
 
     all_forecasts.to_csv(output_file, index=False)
@@ -68,6 +80,9 @@ def main():
     print("Column CV MAE result:")
     for column in columns_to_predict:
         print(f"{column}: {column_cv_results[column]}")
+
+    for figure in enumerate(figures):
+        show_figure(figure[1], columns_to_predict[figure[0]])
 
 
 if __name__ == "__main__":

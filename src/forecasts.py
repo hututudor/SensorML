@@ -43,7 +43,12 @@ def get_cross_validation_error(model, df):
     return np.mean(np.abs(actual_values - predictions))
 
 
-def show_figure(fig, title):
+def show_figure(fig, df, title):
+    last_timestamp = df['Timestamp'].max()
+    additional_df = pd.date_range(start=last_timestamp, periods=49, freq='H')[1:]
+    additional_df = pd.DataFrame({'Timestamp': additional_df})
+    fig.add_trace(
+        dict(x=additional_df['Timestamp'], y=df[title], mode='lines', name='Actual values', line=dict(color='black')))
     fig.update_layout(title_text=title, title_x=0.5,
                       xaxis=dict(rangeselector=dict(buttons=list([dict(step="all")])), rangeslider=dict(visible=True),
                                  type="date"))
@@ -82,7 +87,7 @@ def main():
         print(f"{column}: {column_cv_results[column]}")
 
     for figure in enumerate(figures):
-        show_figure(figure[1], columns_to_predict[figure[0]])
+        show_figure(figure[1], df, columns_to_predict[figure[0]])
 
 
 if __name__ == "__main__":

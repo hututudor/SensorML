@@ -180,15 +180,153 @@
                       :hasAnatomicalRegionName "apicalSuperiorRegion" .
 
 
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#BasalToCentralRegion
+:BasalToCentralRegion rdf:type owl:NamedIndividual ,
+                               :AnatomicalRegion ;
+                      :hasAnatomicalRegionName "basalToCentralRegion" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#Brown
+:Brown rdf:type owl:NamedIndividual ,
+                :Color ;
+       :hasColorName "brown" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#DampAndWrinkled
+:DampAndWrinkled rdf:type owl:NamedIndividual ,
+                          :Texture ;
+                 :hasTextureName "DampAndWrinkled" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#DarkBrown
+:DarkBrown rdf:type owl:NamedIndividual ,
+                    :Color ;
+           :hasColorName "darkBrown" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#DarkRedBrown
+:DarkRedBrown rdf:type owl:NamedIndividual ,
+                       :Color ;
+              :hasColorName "darkRedBrown" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#Disease2
+:Disease2 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Leaf ;
+          :hasAnatomicalRegion :SuperiorSide ;
+          :hasBorderColor :LightGreen ;
+          :hasColor :Brown ;
+          :hasIntensity :Strong ;
+          :hasShape :Irregular ;
+          :hasTexture :DampAndWrinkled ;
+          :hasDiseaseName "LateBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#Disease3
+:Disease3 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Leaf ;
+          :hasAnatomicalRegion :SuperiorSide ;
+          :hasBorderColor :GreenBrown ;
+          :hasColor :PurpleBrown ;
+          :hasIntensity :SevereToFatal ;
+          :hasPattern :Blotchy ;
+          :hasShape :Irregular ;
+          :hasTexture :DampAndWrinkled ;
+          :hasDiseaseName "LateBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#Disease4
+:Disease4 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Stem ;
+          :hasColor :DarkBrown ;
+          :hasIntensity :StrongToFatal ;
+          :hasPattern :Blotchy ;
+          :hasShape :Irregular ;
+          :hasTexture :Damp ;
+          :hasDiseaseName "LateBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#Disease5
+:Disease5 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Fruit ;
+          :hasAnatomicalRegion :BasalToCentralRegion ;
+          :hasBorderColor :DarkRedBrown ;
+          :hasColor :DarkRedBrown ;
+          :hasIntensity :SevereToFatal ;
+          :hasPattern :Blotchy ;
+          :hasShape :Irregular ;
+          :hasTexture :DryAndRough ;
+          :hasDiseaseName "LateBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#DryAndRough
+:DryAndRough rdf:type owl:NamedIndividual ,
+                      :Texture ;
+             :hasTextureName "dryAndRough" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#Fruit
+:Fruit rdf:type owl:NamedIndividual ,
+                :AffectedPart ;
+       :hasAffectedPartName "Fruit" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#GreenBrown
+:GreenBrown rdf:type owl:NamedIndividual ,
+                     :BorderColor ;
+            :hasColorName "greenBrown" .
+
+
 ###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#Irregular
 :Irregular rdf:type owl:NamedIndividual ,
                     :Shape ;
            :hasShapeName "irregular" .
 
 
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#PurpleBrown
+:PurpleBrown rdf:type owl:NamedIndividual ,
+                      :Color ;
+             :hasColorName "purpleBrown" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#SevereToFatal
+:SevereToFatal rdf:type owl:NamedIndividual ,
+                        :Intensity ;
+               :hasIntensityName "severeToFatal" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#Stem
+:Stem rdf:type owl:NamedIndividual ,
+               :AffectedPart ;
+      :hasAffectedPartName "Stem" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#Strong
+:Strong rdf:type owl:NamedIndividual ,
+                 :Intensity ;
+        :hasIntensityName "strong" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#StrongToFatal
+:StrongToFatal rdf:type owl:NamedIndividual ,
+                        :Intensity ;
+               :hasIntensityName "strongToFatal" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML#SuperiorSide
+:SuperiorSide rdf:type owl:NamedIndividual ,
+                       :AnatomicalRegion ;
+              :hasAnatomicalRegionName "superiorSide" .
+
+
 ###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Blotchy
 :Blotchy rdf:type owl:NamedIndividual ,
                   :Pattern ;
+         :hasDiseaseName "LateBlight" ;
          :hasPatternName "blotchy" .
 
 
@@ -203,7 +341,6 @@
                    :Disease ;
           :hasAffectedPart :Leaf ;
           :hasAnatomicalRegion :ApicalSuperiorRegion ;
-          :hasBorderColor :LightGreen ;
           :hasColor :LightGreen ;
           :hasIntensity :WeakToModerate ;
           :hasPattern :Blotchy ;

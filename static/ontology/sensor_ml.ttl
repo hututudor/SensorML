@@ -35,7 +35,9 @@
 
 ###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasColor
 :hasColor rdf:type owl:ObjectProperty ;
-          rdfs:subPropertyOf owl:topObjectProperty .
+          rdfs:subPropertyOf owl:topObjectProperty ;
+          rdfs:domain :Disease ;
+          rdfs:range :Color .
 
 
 ###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasIntensity
@@ -209,16 +211,6 @@
        :hasColorName "brown" .
 
 
-###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Chalky
-:Chalky rdf:type owl:NamedIndividual ,
-                 :Texture .
-
-
-###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Circular
-:Circular rdf:type owl:NamedIndividual ,
-                   :Shape .
-
-
 ###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Damp
 :Damp rdf:type owl:NamedIndividual ,
                :Texture ;
@@ -254,18 +246,6 @@
           :hasShape :Irregular ;
           :hasTexture :Damp ;
           :hasDiseaseName "LateBlight" .
-
-
-###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease10
-:Disease10 rdf:type owl:NamedIndividual ,
-                    :Disease ;
-           :hasAffectedPart :Leaf ;
-           :hasColor :YellowWhite ;
-           :hasIntensity :AllIntensities ;
-           :hasPattern :Blotchy ;
-           :hasShape :Irregular ;
-           :hasTexture :Chalky ;
-           :hasDiseaseName "PowderyMildew" .
 
 
 ###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease2

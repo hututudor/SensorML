@@ -1,0 +1,485 @@
+@prefix : <http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/> .
+
+<http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML> rdf:type owl:Ontology ;
+                                                                 rdfs:comment "This ontology is about a faculty project consisting of a study about diseases that tomatoes may have."@en .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasAffectedPart
+:hasAffectedPart rdf:type owl:ObjectProperty ;
+                 rdfs:domain :Disease ;
+                 rdfs:range :AffectedPart .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasAnatomicalRegion
+:hasAnatomicalRegion rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf owl:topObjectProperty ;
+                     rdfs:domain :Disease ;
+                     rdfs:range :AnatomicalRegion .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasBorderColor
+:hasBorderColor rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf owl:topObjectProperty ;
+                rdfs:domain :Disease ;
+                rdfs:range :BorderColor .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasColor
+:hasColor rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf owl:topObjectProperty ;
+          rdfs:domain :Disease ;
+          rdfs:range :Color .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasIntensity
+:hasIntensity rdf:type owl:ObjectProperty ;
+              rdfs:domain :Disease ;
+              rdfs:range :Intensity .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasPattern
+:hasPattern rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty ;
+            rdfs:domain :Disease ;
+            rdfs:range :Pattern .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasShape
+:hasShape rdf:type owl:ObjectProperty ;
+          rdfs:domain :Disease ;
+          rdfs:range :Shape .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasTexture
+:hasTexture rdf:type owl:ObjectProperty ;
+            rdfs:domain :Disease ;
+            rdfs:range :Texture .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasAffectedPartName
+:hasAffectedPartName rdf:type owl:DatatypeProperty ;
+                     rdfs:domain :AffectedPart ;
+                     rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasAnatomicalRegionName
+:hasAnatomicalRegionName rdf:type owl:DatatypeProperty ;
+                         rdfs:subPropertyOf owl:topDataProperty ;
+                         rdfs:domain :AnatomicalRegion ;
+                         rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasColorName
+:hasColorName rdf:type owl:DatatypeProperty ;
+              rdfs:domain :BorderColor ,
+                          :Color ;
+              rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasDiseaseName
+:hasDiseaseName rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Disease ;
+                rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasIntensityName
+:hasIntensityName rdf:type owl:DatatypeProperty ;
+                  rdfs:domain :Intensity ;
+                  rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasPatternName
+:hasPatternName rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Pattern ;
+                rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasShapeName
+:hasShapeName rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf owl:topDataProperty ;
+              rdfs:domain :Shape ;
+              rdfs:range xsd:string .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/hasTextureName
+:hasTextureName rdf:type owl:DatatypeProperty ;
+                rdfs:domain :Texture ;
+                rdfs:range xsd:string .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/AffectedPart
+:AffectedPart rdf:type owl:Class ;
+              rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/AnatomicalRegion
+:AnatomicalRegion rdf:type owl:Class ;
+                  rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/BorderColor
+:BorderColor rdf:type owl:Class ;
+             rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Color
+:Color rdf:type owl:Class ;
+       rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease
+:Disease rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Intensity
+:Intensity rdf:type owl:Class ;
+           rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Pattern
+:Pattern rdf:type owl:Class ;
+         rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Shape
+:Shape rdf:type owl:Class ;
+       rdfs:subClassOf :Symptom .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Symptom
+:Symptom rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Texture
+:Texture rdf:type owl:Class ;
+         rdfs:subClassOf :Symptom .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/AllIntensities
+:AllIntensities rdf:type owl:NamedIndividual ,
+                         :Intensity .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/ApicalSuperiorRegion
+:ApicalSuperiorRegion rdf:type owl:NamedIndividual ,
+                               :AnatomicalRegion ;
+                      :hasAnatomicalRegionName "apicalSuperiorRegion" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/BasalToCentralRegion
+:BasalToCentralRegion rdf:type owl:NamedIndividual ,
+                               :AnatomicalRegion ;
+                      :hasAnatomicalRegionName "basalToCentralRegion" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Black
+:Black rdf:type owl:NamedIndividual ,
+                :Color .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Blotchy
+:Blotchy rdf:type owl:NamedIndividual ,
+                  :Pattern ;
+         :hasDiseaseName "LateBlight" ;
+         :hasPatternName "blotchy" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Brown
+:Brown rdf:type owl:NamedIndividual ,
+                :Color ;
+       :hasColorName "brown" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Chalky
+:Chalky rdf:type owl:NamedIndividual ,
+                 :Texture .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Circular
+:Circular rdf:type owl:NamedIndividual ,
+                   :Shape ;
+          :hasShapeName "Circular" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Damp
+:Damp rdf:type owl:NamedIndividual ,
+               :Texture ;
+      :hasTextureName "damp" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/DampAndWrinkled
+:DampAndWrinkled rdf:type owl:NamedIndividual ,
+                          :Texture ;
+                 :hasTextureName "DampAndWrinkled" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/DarkBrown
+:DarkBrown rdf:type owl:NamedIndividual ,
+                    :Color ;
+           :hasColorName "darkBrown" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/DarkRedBrown
+:DarkRedBrown rdf:type owl:NamedIndividual ,
+                       :Color ;
+              :hasColorName "darkRedBrown" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease1
+:Disease1 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Leaf ;
+          :hasAnatomicalRegion :ApicalSuperiorRegion ;
+          :hasColor :LightGreen ;
+          :hasIntensity :WeakToModerate ;
+          :hasPattern :Blotchy ;
+          :hasShape :Irregular ;
+          :hasTexture :Damp ;
+          :hasDiseaseName "LateBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease10
+:Disease10 rdf:type owl:NamedIndividual ,
+                    :Disease ;
+           :hasAffectedPart :Leaf ;
+           :hasColor :YellowWhite ;
+           :hasIntensity :AllIntensities ;
+           :hasPattern :Blotchy ;
+           :hasShape :Irregular ;
+           :hasTexture :Chalky ;
+           :hasDiseaseName "PowderyMilldew" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease2
+:Disease2 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Leaf ;
+          :hasAnatomicalRegion :SuperiorSide ;
+          :hasBorderColor :LightGreen ;
+          :hasColor :Brown ;
+          :hasIntensity :Strong ;
+          :hasShape :Irregular ;
+          :hasTexture :DampAndWrinkled ;
+          :hasDiseaseName "LateBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease3
+:Disease3 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Leaf ;
+          :hasAnatomicalRegion :SuperiorSide ;
+          :hasBorderColor :GreenBrown ;
+          :hasColor :PurpleBrown ;
+          :hasIntensity :SevereToFatal ;
+          :hasPattern :Blotchy ;
+          :hasShape :Irregular ;
+          :hasTexture :DampAndWrinkled ;
+          :hasDiseaseName "LateBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease4
+:Disease4 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Stem ;
+          :hasColor :DarkBrown ;
+          :hasIntensity :StrongToFatal ;
+          :hasPattern :Blotchy ;
+          :hasShape :Irregular ;
+          :hasTexture :Damp ;
+          :hasDiseaseName "LateBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease5
+:Disease5 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Fruit ;
+          :hasAnatomicalRegion :BasalToCentralRegion ;
+          :hasBorderColor :DarkRedBrown ;
+          :hasColor :DarkRedBrown ;
+          :hasIntensity :SevereToFatal ;
+          :hasPattern :Blotchy ;
+          :hasShape :Irregular ;
+          :hasTexture :DryAndRough ;
+          :hasDiseaseName "LateBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease6
+:Disease6 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Leaf ;
+          :hasBorderColor :YellowGreen ;
+          :hasColor :YellowGreen ;
+          :hasIntensity :WeakToModerate ;
+          :hasPattern :Spotted ;
+          :hasShape :Circular ;
+          :hasTexture :Damp ;
+          :hasDiseaseName "EarlyBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease7
+:Disease7 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Leaf ;
+          :hasBorderColor :Yellow ;
+          :hasColor :Yellow ;
+          :hasIntensity :StrongToFatal ;
+          :hasPattern :Spotted ;
+          :hasShape :Circular ;
+          :hasTexture :Damp ;
+          :hasDiseaseName "EarlyBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease8
+:Disease8 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Stem ;
+          :hasColor :Blotchy ;
+          :hasIntensity :StrongToFatal ;
+          :hasShape :Elliptic ;
+          :hasTexture :Damp ;
+          :hasDiseaseName "EarlyBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Disease9
+:Disease9 rdf:type owl:NamedIndividual ,
+                   :Disease ;
+          :hasAffectedPart :Fruit ;
+          :hasAnatomicalRegion :BasalToCentralRegion ;
+          :hasColor :DarkBrown ;
+          :hasIntensity :SevereToFatal ;
+          :hasPattern :Blotchy ;
+          :hasShape :RingShape ;
+          :hasTexture :DryAndRough ;
+          :hasDiseaseName "EarlyBlight" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/DryAndRough
+:DryAndRough rdf:type owl:NamedIndividual ,
+                      :Texture ;
+             :hasTextureName "dryAndRough" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Elliptic
+:Elliptic rdf:type owl:NamedIndividual ,
+                   :Shape .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Fruit
+:Fruit rdf:type owl:NamedIndividual ,
+                :AffectedPart ;
+       :hasAffectedPartName "Fruit" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/GreenBrown
+:GreenBrown rdf:type owl:NamedIndividual ,
+                     :BorderColor ;
+            :hasColorName "greenBrown" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Irregular
+:Irregular rdf:type owl:NamedIndividual ,
+                    :Shape ;
+           :hasShapeName "irregular" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Leaf
+:Leaf rdf:type owl:NamedIndividual ,
+               :AffectedPart ;
+      :hasAffectedPartName "Leaf" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/LightGreen
+:LightGreen rdf:type owl:NamedIndividual ,
+                     :Color ;
+            :hasColorName "lightGreen" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/PurpleBrown
+:PurpleBrown rdf:type owl:NamedIndividual ,
+                      :Color ;
+             :hasColorName "purpleBrown" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/RingShape
+:RingShape rdf:type owl:NamedIndividual ,
+                    :Shape .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/SevereToFatal
+:SevereToFatal rdf:type owl:NamedIndividual ,
+                        :Intensity ;
+               :hasIntensityName "severeToFatal" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Spotted
+:Spotted rdf:type owl:NamedIndividual ,
+                  :Symptom .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Stem
+:Stem rdf:type owl:NamedIndividual ,
+               :AffectedPart ;
+      :hasAffectedPartName "Stem" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Strong
+:Strong rdf:type owl:NamedIndividual ,
+                 :Intensity ;
+        :hasIntensityName "strong" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/StrongToFatal
+:StrongToFatal rdf:type owl:NamedIndividual ,
+                        :Intensity ;
+               :hasIntensityName "strongToFatal" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/SuperiorSide
+:SuperiorSide rdf:type owl:NamedIndividual ,
+                       :AnatomicalRegion ;
+              :hasAnatomicalRegionName "superiorSide" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/WeakToModerate
+:WeakToModerate rdf:type owl:NamedIndividual ,
+                         :Intensity ;
+                :hasIntensityName "weakToModerate" .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Yellow
+:Yellow rdf:type owl:NamedIndividual ,
+                 :Color .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/YellowGreen
+:YellowGreen rdf:type owl:NamedIndividual ,
+                      :Color .
+
+
+###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/YellowWhite
+:YellowWhite rdf:type owl:NamedIndividual ,
+                      :Color .
+
+
+###  Generated by the OWL API (version 4.5.26.2023-07-17T20:34:13Z) https://github.com/owlcs/owlapi

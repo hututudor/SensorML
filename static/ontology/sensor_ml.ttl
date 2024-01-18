@@ -218,7 +218,8 @@
 
 ###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Circular
 :Circular rdf:type owl:NamedIndividual ,
-                   :Shape .
+                   :Shape ;
+          :hasShapeName "Circular" .
 
 
 ###  http://www.semanticweb.org/stefan/ontologies/2024/0/Sensor_ML/Damp

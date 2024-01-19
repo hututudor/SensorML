@@ -1,11 +1,31 @@
+import { useState } from 'react';
 import { Button, Flex, Text, Box } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { FileInput } from '../../components/FileInput';
+import { uploadData } from '../../api';
 
 export const Landing = () => {
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   const handleInfoClick = () => {
     navigate('/info');
+  };
+
+  const handleFileUpload = async event => {
+    const file = event.target.files[0];
+
+    if (!file || file.type !== 'text/csv') {
+      return;
+    }
+
+    setLoading(true);
+
+    const { id } = await uploadData(file);
+    navigate(`/results/${id}`);
+
+    setLoading(false);
   };
 
   return (
@@ -35,9 +55,12 @@ export const Landing = () => {
           SensorML
         </Text>
 
-        <Button size='lg' mb={4}>
-          Upload CSV to get insights
-        </Button>
+        <FileInput onChange={handleFileUpload} accept='text/csv'>
+          <Button size='lg' mb={4} isLoading={loading} disabled={loading}>
+            Upload CSV to get insights
+          </Button>
+        </FileInput>
+
         <Button
           color='white'
           size='lg'

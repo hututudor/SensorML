@@ -129,7 +129,6 @@ class LSTMService:
 
     @staticmethod
     def plot_losses(train_losses):
-        # Plot the losses
         plt.figure(figsize=(8, 5))
         plt.title("Training loss")
         plt.plot(train_losses, label="Train")
@@ -151,7 +150,7 @@ class LSTMService:
 
 
 # Example usage
-data = pd.read_csv("../../static/SensorMLTestDataset.csv")  # lstm_service = LSTMService(data)
+data = pd.read_csv("../../static/SensorMLTestDataset.csv")
 lstm_service = LSTMService(data)
 json_train_losses = lstm_service.train(num_epochs=100, batch_size=64)
 train_losses = json.loads(json_train_losses)

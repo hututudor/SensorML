@@ -25,11 +25,8 @@ class LSTMService:
         - The first column should be the date (it will be ignored)
         - The remaining columns should be the attributes
         """
-        data = data.drop("Timestamp", axis=1)
-        self.columns = data.columns.values.tolist()
-        data = (data - data.mean()) / data.std()
-        self.data = data.to_numpy()
-        input_size = self.data.shape[1]
+        self.data = data
+        input_size = self.data.shape[1] - 1
         output_size = input_size
         self.model = LSTM(input_size, self.hidden_size, self.num_layers, output_size)
 
@@ -42,11 +39,14 @@ class LSTMService:
 
         Train the model on the data
         """
+        train_data = self.data.drop("Timestamp", axis=1)
+        train_data = (train_data - train_data.mean()) / train_data.std()
+        train_data = train_data.to_numpy()
         X, y = [], []
 
-        for i in range(len(self.data) - self.seq_len):
-            X.append(self.data[i:i + self.seq_len, :])  # change to include all attributes
-            y.append(self.data[i + self.seq_len, :])  # change to include all attributes
+        for i in range(len(train_data) - self.seq_len):
+            X.append(train_data[i:i + self.seq_len, :])  # change to include all attributes
+            y.append(train_data[i + self.seq_len, :])  # change to include all attributes
 
         X = np.array(X)
         y = np.array(y)
@@ -119,27 +119,28 @@ class LSTMService:
         return y_pred_test, y_test
 
     def plot_predictions(self, y_pred_test, y_test, path):
+        last_timestamp = self.data['Timestamp'].max()
+        additional_df = pd.date_range(start=last_timestamp, periods=168, freq='H')[1:]
+        additional_df = pd.DataFrame({'Timestamp': additional_df})
         for i in range(y_pred_test.shape[1]):
             fig = go.Figure()
-            fig.add_trace(go.Scatter(x=list(range(1, y_test.shape[0] + 1)), y=y_test[:, i], mode='lines',
-                                     name='Actual'))
-            fig.add_trace(go.Scatter(x=list(range(1, y_pred_test.shape[0] + 1)), y=y_pred_test[:, i], mode='lines',
-                                     name='Predicted'))
-            fig.update_layout(title=f"Predictions for {self.columns[i]}", xaxis_title="Time", yaxis_title="Value")
-            fig.update_layout(title_x=0.5)
-            fig.write_html(f"{path}/{self.columns[i]}.html")
+            fig.add_trace(dict(x=additional_df['Timestamp'], y=y_test[:, i], mode='lines', name='Actual'))
+            fig.add_trace(dict(x=additional_df['Timestamp'], y=y_pred_test[:, i], mode='lines', name='Predicted'))
+            fig.update_layout(title=f"LSTM predictions for {self.data.columns[i + 1]}", title_x=0.5, xaxis_title="Time",
+                              yaxis_title="Normalized value")
+            fig.write_html(f"{path}/{self.data.columns[i + 1]}.html")
 
     @staticmethod
     def plot_losses(train_losses, path):
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=list(range(1, len(train_losses) + 1)), y=train_losses, mode='lines', name='Train'))
-        fig.update_layout(title="Training loss", xaxis_title="Epoch", yaxis_title="Loss")
-        fig.update_layout(title_x=0.5)
+        fig.update_layout(title="Training loss", title_x=0.5, xaxis_title="Epoch", yaxis_title="Loss")
         fig.write_html(f"{path}/loss.html")
 
 
 # Example usage
-data = pd.read_csv("../../static/SensorMLTestDataset.csv")
+data = pd.read_csv("../../static/SensorMLDataset_small.csv")
+data['Timestamp'] = pd.to_datetime(data['Timestamp'])
 lstm_service = LSTMService(data)
 train_losses = lstm_service.train(num_epochs=100, batch_size=64)
 lstm_service.plot_losses(train_losses, path="../../static/predictions_plots/lstm")

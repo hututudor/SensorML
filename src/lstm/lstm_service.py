@@ -1,9 +1,7 @@
-import json
-
 import numpy as np
 import pandas as pd
+import plotly.graph_objects as go
 import torch
-from matplotlib import pyplot as plt
 from torch import nn, optim
 
 from src.lstm.lstm import LSTM
@@ -40,7 +38,7 @@ class LSTMService:
         :param num_epochs: number of epochs
         :param batch_size: batch size
 
-        :return: json array of train losses (length = num_epochs)
+        :return: train_losses
 
         Train the model on the data
         """
@@ -81,13 +79,11 @@ class LSTMService:
             else:
                 epochs_no_improve += 1
                 if epochs_no_improve == n_epochs_stop:
-                    print(f"Early stopping at epoch {epoch + 1}, Train Loss: {loss.item():.4f}")
                     break
 
-            print(f"Epoch {epoch + 1}, Train Loss: {loss.item():.4f}")
             train_losses.append(loss.item())
 
-        return json.dumps(train_losses)
+        return train_losses
 
     def predict(self, data: pd.DataFrame):
         """
@@ -120,44 +116,34 @@ class LSTMService:
         with torch.no_grad():
             y_pred_test = self.model(X_test)
 
-        results = dict()
+        return y_pred_test, y_test
 
-        for i in range(len(self.columns)):
-            results[self.columns[i]] = {"actual": y_test[:, i].tolist(), "predicted": y_pred_test[:, i].tolist()}
-
-        return results
-
-    @staticmethod
-    def plot_losses(train_losses):
-        plt.figure(figsize=(8, 5))
-        plt.title("Training loss")
-        plt.plot(train_losses, label="Train")
-        plt.xlabel("Epoch")
-        plt.ylabel("Loss")
-        plt.legend()
-        plt.show()
+    def plot_predictions(self, y_pred_test, y_test, path):
+        for i in range(y_pred_test.shape[1]):
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(x=list(range(1, y_test.shape[0] + 1)), y=y_test[:, i], mode='lines',
+                                     name='Actual'))
+            fig.add_trace(go.Scatter(x=list(range(1, y_pred_test.shape[0] + 1)), y=y_pred_test[:, i], mode='lines',
+                                     name='Predicted'))
+            fig.update_layout(title=f"Predictions for {self.columns[i]}", xaxis_title="Time", yaxis_title="Value")
+            fig.update_layout(title_x=0.5)
+            fig.write_html(f"{path}/{self.columns[i]}.html")
 
     @staticmethod
-    def plot_predictions(y_pred_test, y_test):
-        plt.figure(figsize=(8, 5))
-        plt.title(f"Predicted vs Actual")
-        plt.plot(y_test, label="Actual")
-        plt.plot(y_pred_test, label="Predicted")
-        plt.xlabel("Time step")
-        plt.ylabel("Normalized value")
-        plt.legend()
-        plt.show()
+    def plot_losses(train_losses, path):
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=list(range(1, len(train_losses) + 1)), y=train_losses, mode='lines', name='Train'))
+        fig.update_layout(title="Training loss", xaxis_title="Epoch", yaxis_title="Loss")
+        fig.update_layout(title_x=0.5)
+        fig.write_html(f"{path}/loss.html")
 
 
 # Example usage
 data = pd.read_csv("../../static/SensorMLTestDataset.csv")
 lstm_service = LSTMService(data)
-json_train_losses = lstm_service.train(num_epochs=100, batch_size=64)
-train_losses = json.loads(json_train_losses)
-lstm_service.plot_losses(train_losses)
+train_losses = lstm_service.train(num_epochs=100, batch_size=64)
+lstm_service.plot_losses(train_losses, path="../../static/predictions_plots/lstm")
 
 test_data = pd.read_csv("../../static/SensorMLTestDataset.csv")
-results = lstm_service.predict(test_data)
-y_test = np.array(results["lumina"]["actual"])
-y_pred_test = np.array(results["lumina"]["predicted"])
-lstm_service.plot_predictions(y_pred_test, y_test)
+y_pred_test, y_test = lstm_service.predict(test_data)
+lstm_service.plot_predictions(y_pred_test, y_test, path="../../static/predictions_plots/lstm")

@@ -1,2 +1,5 @@
 out/*
 .idea
+__pycache__
+*.pyc
+*.pyo

@@ -6,6 +6,7 @@ from prophet import Prophet
 class ProphetService:
     def __init__(self, data: pd.DataFrame):
         self.data = data
+        self.data['Timestamp'] = pd.to_datetime(self.data['Timestamp'])
 
     def __train(self, column):
         self.model = Prophet()
@@ -29,8 +30,8 @@ class ProphetService:
             forecast = self.predict()
             figure = go.Figure()
             figure.add_trace(
-                dict(x=additional_df['Timestamp'], y=test_data[column], mode='lines', name='Actual values'))
-            figure.add_trace(dict(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Predicted values'))
+                dict(x=additional_df['Timestamp'], y=test_data[column], mode='lines', name='Actual'))
+            figure.add_trace(dict(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Predicted'))
             figure.update_layout(title_text=f'Prophet predictions for {column}', title_x=0.5, xaxis_title="Time",
                                  yaxis_title="Value")
             figure.write_html(f"../../static/predictions_plots/prophet/{column}.html")
@@ -38,7 +39,6 @@ class ProphetService:
 
 # Example usage:
 data = pd.read_csv('../../static/SensorMLDataset_small.csv')
-data['Timestamp'] = pd.to_datetime(data['Timestamp'])
 test_data = pd.read_csv('../../static/SensorMLTestDataset.csv')
 prophet = ProphetService(data)
 prophet.plot_predictions(test_data)

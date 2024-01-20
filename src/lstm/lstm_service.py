@@ -26,6 +26,7 @@ class LSTMService:
         - The remaining columns should be the attributes
         """
         self.data = data
+        self.data['Timestamp'] = pd.to_datetime(data['Timestamp'])
         input_size = self.data.shape[1] - 1
         output_size = input_size
         self.model = LSTM(input_size, self.hidden_size, self.num_layers, output_size)
@@ -140,7 +141,6 @@ class LSTMService:
 
 # Example usage
 data = pd.read_csv("../../static/SensorMLDataset_small.csv")
-data['Timestamp'] = pd.to_datetime(data['Timestamp'])
 lstm_service = LSTMService(data)
 train_losses = lstm_service.train(num_epochs=100, batch_size=64)
 lstm_service.plot_losses(train_losses, path="../../static/predictions_plots/lstm")

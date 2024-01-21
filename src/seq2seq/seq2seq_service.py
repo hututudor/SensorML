@@ -64,8 +64,8 @@ class Seq2SeqService:
         encoder_output = MultiHeadAttention(
             num_heads=2, key_dim=len(self.columns_to_predict) // 2
         )(query=self.input_seq, value=self.input_seq)
-        encoder_output = Dropout(0.1)(encoder_output)
-        encoder_output = LayerNormalization(epsilon=1e-6)(
+        encoder_output = Dropout(0.05)(encoder_output)
+        encoder_output = LayerNormalization(epsilon=1e-5)(
             self.input_seq + encoder_output
         )
 
@@ -73,8 +73,8 @@ class Seq2SeqService:
         decoder_output = MultiHeadAttention(
             num_heads=2, key_dim=len(self.columns_to_predict) // 2
         )(query=encoder_output, value=encoder_output)
-        decoder_output = Dropout(0.1)(decoder_output)
-        decoder_output = LayerNormalization(epsilon=1e-6)(
+        decoder_output = Dropout(0.05)(decoder_output)
+        decoder_output = LayerNormalization(epsilon=1e-5)(
             encoder_output + decoder_output
         )
 
@@ -103,7 +103,7 @@ class Seq2SeqService:
             self.y_train,
             epochs=epochs,
             batch_size=batch_size,
-            validation_split=0.2,
+            validation_split=0,
         )
 
     def predict(self, test_data: pd.DataFrame):
@@ -112,8 +112,8 @@ class Seq2SeqService:
 
         Return: None
         """
-        self.test_data = test_data
-        self.test_data["Timestamp"] = pd.to_datetime(self.test_data["Timestamp"])
+        self.test_data = test_data.iloc[:self.n_steps_in]
+        self.test_data.loc[:, "Timestamp"] = pd.to_datetime(self.test_data["Timestamp"])
         self.test_data.set_index("Timestamp", inplace=True)
 
         new_predictions = self.model.predict(
@@ -125,6 +125,47 @@ class Seq2SeqService:
         self.predicted_values_original = self.scaler.inverse_transform(
             new_predictions.reshape(-1, len(self.columns_to_predict))
         )
+
+    def create_disease_risk(self):
+        daily_avg_temp1 = self.test_data["temp1"].resample('D').mean().tolist()
+        daily_avg_umid = self.test_data["umid"].resample('D').mean().tolist()
+
+        print("Disease risks:")
+        print(daily_avg_umid)
+        print(daily_avg_temp1)
+
+        disease_risks = {}
+        diseases = ["early_blight", "gray_mold", "late_blight", "leaf_mold", "powdery_mildew"]
+
+        temp_intervals = {
+            "early_blight": (24, 29),
+            "gray_mold": (17, 23),
+            "late_blight": (10, 24),
+            "leaf_mold": (21, 24),
+            "powdery_mildew": (22, 30),
+        }
+
+        humidity_intervals = {
+            "early_blight": (90, 100),
+            "gray_mold": (90, 100),
+            "late_blight": (90, 100),
+            "leaf_mold": (85, 100),
+            "powdery_mildew": (50, 75),
+        }
+
+        for disease in diseases:
+            temp_interval = temp_intervals[disease]
+            humidity_interval = humidity_intervals[disease]
+
+            risk_days = 0
+            for temp, humidity in zip(daily_avg_temp1, daily_avg_umid):
+                if temp_interval[0] <= temp <= temp_interval[1] and humidity_interval[0] <= humidity <= \
+                        humidity_interval[1]:
+                    risk_days += 1
+
+            disease_risks[f"{disease}_risk"] = risk_days / len(daily_avg_temp1)
+
+        return disease_risks
 
     def generate_plots(self):
         """
@@ -161,9 +202,10 @@ class Seq2SeqService:
 
 # Example usage
 
-data = pd.read_csv("../../static/SensorMLDataset_small.csv")
+data = pd.read_csv("../../static/SensorMLTrainDataset.csv")
 service = Seq2SeqService(data)
-service.train(epochs=100, batch_size=32)
+service.train(epochs=100, batch_size=64)
 test_data = pd.read_csv("../../static/SensorMLTestDataset.csv")
 service.predict(test_data)
 service.generate_plots()
+print(service.create_disease_risk())

@@ -34,11 +34,11 @@ class ProphetService:
             figure.add_trace(dict(x=forecast['ds'], y=forecast['yhat'], mode='lines', name='Predicted'))
             figure.update_layout(title_text=f'Prophet predictions for {column}', title_x=0.5, xaxis_title="Time",
                                  yaxis_title="Value")
-            figure.write_html(f"../../static/predictions_plots/prophet/{column}.html")
+            figure.write_html(f"../static/predictions_plots/prophet/{column}.html")
 
 
 # Example usage:
-data = pd.read_csv('../../static/SensorMLDataset_small.csv')
-test_data = pd.read_csv('../../static/SensorMLTestDataset.csv')
-prophet = ProphetService(data)
-prophet.plot_predictions(test_data)
+# data = pd.read_csv('../../static/SensorMLDataset_small.csv')
+# test_data = pd.read_csv('../../static/SensorMLTestDataset.csv')
+# prophet = ProphetService(data)
+# prophet.plot_predictions(test_data)

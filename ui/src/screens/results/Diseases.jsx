@@ -23,12 +23,12 @@ export const Diseases = ({ predictions }) => (
           <Td>{predictions?.early_blight ?? '-'}</Td>
         </Tr>
         <Tr>
-          <Td>Late Blight</Td>
-          <Td>{predictions?.late_blight ?? '-'}</Td>
-        </Tr>
-        <Tr>
           <Td>Gray Mold</Td>
           <Td>{predictions?.gray_mold ?? '-'}</Td>
+        </Tr>
+        <Tr>
+          <Td>Late Blight</Td>
+          <Td>{predictions?.late_blight ?? '-'}</Td>
         </Tr>
         <Tr>
           <Td>Leaf Mold</Td>

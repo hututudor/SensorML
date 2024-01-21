@@ -152,7 +152,7 @@ class LSTMService:
                 if disease_ranges['temp'][0] <= avg_predicted_temps[day] <= disease_ranges['temp'][1] and \
                         disease_ranges['umid'][0] <= avg_predicted_humidities[day] <= disease_ranges['umid'][1]:
                     risk_days += 1
-                result_dict[disease_name] = risk_days / 7
+            result_dict[disease_name] = risk_days / 7
 
         return result_dict
 

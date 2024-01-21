@@ -52,7 +52,8 @@ def predict_data():
     global prophet_service
     global seq2seq_service
 
-    test_data = pd.read_csv("../static/SensorMLDataset_small.csv")
+    file = request.files['file']
+    test_data = pd.read_csv(file)
 
     # LSTM
     y_pred_test, y_test = lstm_service.predict(test_data)

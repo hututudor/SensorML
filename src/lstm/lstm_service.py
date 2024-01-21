@@ -165,39 +165,39 @@ class LSTMService:
 
 
 # Example usage
-data = pd.read_csv("../../static/SensorMLTrainDataset.csv")
-lstm_service = LSTMService(data)
-train_losses = lstm_service.train(num_epochs=100, batch_size=64)
-lstm_service.plot_losses(train_losses, path="../../static/predictions_plots/lstm")
-
-test_data = pd.read_csv("../../static/SensorMLTestDataset.csv")
-y_pred_test, y_test = lstm_service.predict(test_data)
-
-data_mean = test_data.drop("Timestamp", axis=1).mean().to_numpy()
-data_std = test_data.drop("Timestamp", axis=1).std().to_numpy()
-lstm_service.plot_predictions(y_pred_test, y_test, data_mean, data_std, path="../../static/predictions_plots/lstm")
-
-diseases = {
-    "early_blight": {
-        "temp": [24, 29],
-        "umid": [90, 100]
-    },
-    "gray_mold": {
-        "temp": [17, 23],
-        "umid": [90, 100]
-    },
-    "late_blight": {
-        "temp": [10, 24],
-        "umid": [90, 100]
-    },
-    "leaf_mold": {
-        "temp": [21, 24],
-        "umid": [85, 100]
-    },
-    "powdery_mildew": {
-        "temp": [22, 30],
-        "umid": [50, 75]
-    },
-}
-risks = LSTMService.calculate_disease_risk(y_pred_test, data_mean, data_std, diseases)
-print(risks)
+# data = pd.read_csv("../../static/SensorMLTrainDataset.csv")
+# lstm_service = LSTMService(data)
+# train_losses = lstm_service.train(num_epochs=100, batch_size=64)
+# lstm_service.plot_losses(train_losses, path="../../static/predictions_plots/lstm")
+#
+# test_data = pd.read_csv("../../static/SensorMLTestDataset.csv")
+# y_pred_test, y_test = lstm_service.predict(test_data)
+#
+# data_mean = test_data.drop("Timestamp", axis=1).mean().to_numpy()
+# data_std = test_data.drop("Timestamp", axis=1).std().to_numpy()
+# lstm_service.plot_predictions(y_pred_test, y_test, data_mean, data_std, path="../../static/predictions_plots/lstm")
+#
+# diseases = {
+#     "early_blight": {
+#         "temp": [24, 29],
+#         "umid": [90, 100]
+#     },
+#     "gray_mold": {
+#         "temp": [17, 23],
+#         "umid": [90, 100]
+#     },
+#     "late_blight": {
+#         "temp": [10, 24],
+#         "umid": [90, 100]
+#     },
+#     "leaf_mold": {
+#         "temp": [21, 24],
+#         "umid": [85, 100]
+#     },
+#     "powdery_mildew": {
+#         "temp": [22, 30],
+#         "umid": [50, 75]
+#     },
+# }
+# risks = LSTMService.calculate_disease_risk(y_pred_test, data_mean, data_std, diseases)
+# print(risks)

@@ -8,6 +8,8 @@ from src.prophet.prophet_service import ProphetService
 from src.seq2seq.seq2seq_service import Seq2SeqService
 from flask import send_from_directory
 
+EPOCHS = 100
+
 diseases = {
     "early_blight": {
         "temp": [24, 29],
@@ -89,11 +91,11 @@ def get_data():
 if __name__ == '__main__':
     data = pd.read_csv("../static/SensorMLTrainDataset.csv")
     service = Seq2SeqService(data)
-    service.train(epochs=4, batch_size=32)
+    service.train(epochs=EPOCHS, batch_size=32)
 
     data = pd.read_csv("../static/SensorMLTrainDataset.csv")
     lstm_service = LSTMService(data)
-    train_losses = lstm_service.train(num_epochs=4, batch_size=64)
+    train_losses = lstm_service.train(num_epochs=EPOCHS, batch_size=64)
 
     data = pd.read_csv("../static/SensorMLTrainDataset.csv")
     prophet_service = ProphetService(data)

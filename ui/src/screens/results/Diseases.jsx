@@ -9,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 
 const formatProbability = probability => {
-  if (!probability) {
+  if (isNaN(probability)) {
     return '-';
   }
 
@@ -22,29 +22,29 @@ export const Diseases = ({ predictions }) => (
       <Thead>
         <Tr>
           <Th>Disease</Th>
-          <Th>Predicted Probability</Th>
+          <Th isNumeric>Predicted Probability</Th>
         </Tr>
       </Thead>
       <Tbody>
         <Tr>
           <Td>Early Blight</Td>
-          <Td>{formatProbability(predictions?.early_blight)}</Td>
+          <Td isNumeric>{formatProbability(predictions?.early_blight)}</Td>
         </Tr>
         <Tr>
           <Td>Gray Mold</Td>
-          <Td>{formatProbability(predictions?.gray_mold)}</Td>
+          <Td isNumeric>{formatProbability(predictions?.gray_mold)}</Td>
         </Tr>
         <Tr>
           <Td>Late Blight</Td>
-          <Td>{formatProbability(predictions?.late_blight)}</Td>
+          <Td isNumeric>{formatProbability(predictions?.late_blight)}</Td>
         </Tr>
         <Tr>
           <Td>Leaf Mold</Td>
-          <Td>{formatProbability(predictions?.leaf_mold)}</Td>
+          <Td isNumeric>{formatProbability(predictions?.leaf_mold)}</Td>
         </Tr>
         <Tr>
           <Td>Powdery Mildew</Td>
-          <Td>{formatProbability(predictions?.powdery_mildew)}</Td>
+          <Td isNumeric>{formatProbability(predictions?.powdery_mildew)}</Td>
         </Tr>
       </Tbody>
     </Table>

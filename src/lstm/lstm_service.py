@@ -140,11 +140,12 @@ class LSTMService:
 
 
 # Example usage
-data = pd.read_csv("../../static/SensorMLDataset_small.csv")
-lstm_service = LSTMService(data)
-train_losses = lstm_service.train(num_epochs=100, batch_size=64)
-lstm_service.plot_losses(train_losses, path="../../static/predictions_plots/lstm")
+# data = pd.read_csv("../../static/SensorMLTestDataset.csv")
+# lstm_service = LSTMService(data)
+# train_losses = lstm_service.train(num_epochs=100, batch_size=64)
+# lstm_service.plot_losses(train_losses, path="../../static/predictions_plots/lstm")
+#
+# test_data = pd.read_csv("../../static/SensorMLTestDataset.csv")
+# y_pred_test, y_test = lstm_service.predict(test_data)
+# lstm_service.plot_predictions(y_pred_test, y_test, path="../../static/predictions_plots/lstm")
 
-test_data = pd.read_csv("../../static/SensorMLTestDataset.csv")
-y_pred_test, y_test = lstm_service.predict(test_data)
-lstm_service.plot_predictions(y_pred_test, y_test, path="../../static/predictions_plots/lstm")

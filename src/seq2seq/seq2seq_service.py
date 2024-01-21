@@ -35,7 +35,7 @@ class Seq2SeqService:
     def __init__(self, data: pd.DataFrame):
         self.predicted_values_original = None
         self.test_data = None
-        self.path = "../../static/predictions_plots/seq2seq"
+        self.path = "../static/predictions_plots/seq2seq"
 
         self.n_steps_in = 168
         self.n_steps_out = 168
@@ -160,10 +160,10 @@ class Seq2SeqService:
 
 
 # Example usage
-
-data = pd.read_csv("../../static/SensorMLDataset_small.csv")
-service = Seq2SeqService(data)
-service.train(epochs=100, batch_size=32)
-test_data = pd.read_csv("../../static/SensorMLTestDataset.csv")
-service.predict(test_data)
-service.generate_plots()
+#
+# data = pd.read_csv("../../static/SensorMLDataset_small.csv")
+# service = Seq2SeqService(data)
+# service.train(epochs=100, batch_size=32)
+# test_data = pd.read_csv("../../static/SensorMLTestDataset.csv")
+# service.predict(test_data)
+# service.generate_plots()

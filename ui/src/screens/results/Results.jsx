@@ -1,23 +1,29 @@
 import { useEffect, useState } from 'react';
-import { Flex, Box, Text } from '@chakra-ui/react';
-import { useParams } from 'react-router-dom';
+import {
+  Flex,
+  Box,
+  Tabs,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+} from '@chakra-ui/react';
 
+import { ProphetResults } from './ProphetResults';
 import { getDataResult } from '../../api';
+import { LSTMResults } from './LSTMResults';
+import { Seq2SeqResults } from './Seq2SeqResults';
 
 export const Results = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
 
-  const { id } = useParams();
-
   useEffect(() => {
     const effect = async () => {
-      setLoading(true);
-
-      const result = await getDataResult(id);
-      setData(result);
-
-      setLoading(false);
+      // setLoading(true);
+      // const result = await getDataResult();
+      // setData(result);
+      // setLoading(false);
     };
 
     if (loading || !!data) {
@@ -25,7 +31,7 @@ export const Results = () => {
     }
 
     effect();
-  });
+  }, [loading, data]);
 
   if (loading) {
     return null;
@@ -34,13 +40,27 @@ export const Results = () => {
   return (
     <Flex width='100vw' justifyContent='center'>
       <Box my={20}>
-        <Text fontSize='24' fontWeight='600' mb={8}>
-          AI Model Results
-        </Text>
+        <Tabs>
+          <Flex justifyContent='center'>
+            <TabList>
+              <Tab>Prophet</Tab>
+              <Tab>LSTM</Tab>
+              <Tab>Seq2Seq</Tab>
+            </TabList>
+          </Flex>
 
-        <Text fontSize='18' fontWeight='600' mb={4}>
-          {data?.x}
-        </Text>
+          <TabPanels>
+            <TabPanel>
+              <ProphetResults />
+            </TabPanel>
+            <TabPanel>
+              <LSTMResults />
+            </TabPanel>
+            <TabPanel>
+              <Seq2SeqResults />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
       </Box>
     </Flex>
   );

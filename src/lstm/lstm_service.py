@@ -148,7 +148,7 @@ class LSTMService:
 
         for disease_name, disease_ranges in diseases.items():
             risk_days = 0
-            for day in range(6):
+            for day in range(7):
                 if disease_ranges['temp'][0] <= avg_predicted_temps[day] <= disease_ranges['temp'][1] and \
                         disease_ranges['umid'][0] <= avg_predicted_humidities[day] <= disease_ranges['umid'][1]:
                     risk_days += 1

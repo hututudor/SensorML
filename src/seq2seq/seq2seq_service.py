@@ -163,7 +163,7 @@ class Seq2SeqService:
                         humidity_interval[1]:
                     risk_days += 1
 
-            disease_risks[f"{disease}_risk"] = risk_days / len(daily_avg_temp1)
+            disease_risks[f"{disease}"] = risk_days / len(daily_avg_temp1)
 
         return disease_risks
 

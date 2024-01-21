@@ -40,7 +40,7 @@ lstm_service = None
 prophet_service = None
 seq2seq_service = None
 
-result = None
+result = {}
 
 @app.route('/<path:filename>')
 def serve_file(filename):
@@ -65,6 +65,10 @@ def predict_data():
     # Prophet
     prophet_service.plot_predictions(test_data)
 
+    # Seq2Seq
+    service.predict(test_data)
+    service.generate_plots()
+
     global result
     result = {
         "lstm": lstm_risks
@@ -83,12 +87,14 @@ def get_data():
 
 if __name__ == '__main__':
     data = pd.read_csv("../static/SensorMLTrainDataset.csv")
-    # service = Seq2SeqService(data)
-    # service.train(epochs=4, batch_size=32)
+    service = Seq2SeqService(data)
+    service.train(epochs=4, batch_size=32)
 
+    data = pd.read_csv("../static/SensorMLTrainDataset.csv")
     lstm_service = LSTMService(data)
     train_losses = lstm_service.train(num_epochs=4, batch_size=64)
 
+    data = pd.read_csv("../static/SensorMLTrainDataset.csv")
     prophet_service = ProphetService(data)
 
     app.run(debug=True)

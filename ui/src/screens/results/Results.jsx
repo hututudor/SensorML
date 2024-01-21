@@ -20,11 +20,13 @@ export const Results = () => {
 
   useEffect(() => {
     const effect = async () => {
-      // setLoading(true);
-      // const result = await getDataResult();
-      // setData(result);
-      // setLoading(false);
+      setLoading(true);
+      const result = await getDataResult();
+      setData(result.data);
+      setLoading(false);
     };
+
+    console.log(loading, !!data);
 
     if (loading || !!data) {
       return;
@@ -36,6 +38,8 @@ export const Results = () => {
   if (loading) {
     return null;
   }
+
+  console.log(data);
 
   return (
     <Flex width='100vw' justifyContent='center'>
@@ -51,13 +55,13 @@ export const Results = () => {
 
           <TabPanels>
             <TabPanel>
-              <ProphetResults />
+              <ProphetResults predictions={data?.prophet} />
             </TabPanel>
             <TabPanel>
-              <LSTMResults />
+              <LSTMResults predictions={data?.lstm} />
             </TabPanel>
             <TabPanel>
-              <Seq2SeqResults />
+              <Seq2SeqResults predictions={data?.seq2seq} />
             </TabPanel>
           </TabPanels>
         </Tabs>

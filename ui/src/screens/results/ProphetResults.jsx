@@ -1,7 +1,13 @@
-import { Graph } from '../../components/Graph';
+import { Flex } from '@chakra-ui/react';
 
-export const ProphetResults = () => (
+import { Graph } from '../../components/Graph';
+import { Diseases } from './Diseases';
+
+export const ProphetResults = ({ predictions }) => (
   <>
+    <Flex justifyContent='center'>
+      <Diseases predictions={predictions} />
+    </Flex>
     <Graph model='prophet' name='pres' />
     <Graph model='prophet' name='temp1' />
     <Graph model='prophet' name='umid' />

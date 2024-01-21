@@ -7,7 +7,7 @@ const client = axios.create({
   json: true,
 });
 
-export const getDataResult = async () => {}; // client.get(`/data`);
+export const getDataResult = async () => client.get(`/data`);
 
 export const uploadData = async file => {
   const formData = new FormData();

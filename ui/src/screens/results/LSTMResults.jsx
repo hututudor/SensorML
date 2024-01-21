@@ -1,7 +1,13 @@
-import { Graph } from '../../components/Graph';
+import { Flex } from '@chakra-ui/react';
 
-export const LSTMResults = () => (
+import { Graph } from '../../components/Graph';
+import { Diseases } from './Diseases';
+
+export const LSTMResults = ({ predictions }) => (
   <>
+    <Flex justifyContent='center'>
+      <Diseases predictions={predictions} />
+    </Flex>
     <Graph model='lstm' name='pres' />
     <Graph model='lstm' name='temp1' />
     <Graph model='lstm' name='umid' />

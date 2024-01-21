@@ -1,7 +1,13 @@
-import { Graph } from '../../components/Graph';
+import { Flex } from '@chakra-ui/react';
 
-export const Seq2SeqResults = () => (
+import { Graph } from '../../components/Graph';
+import { Diseases } from './Diseases';
+
+export const Seq2SeqResults = ({ predictions }) => (
   <>
+    <Flex justifyContent='center'>
+      <Diseases predictions={predictions} />
+    </Flex>
     <Graph model='seq2seq' name='pres' />
     <Graph model='seq2seq' name='temp1' />
     <Graph model='seq2seq' name='umid' />

@@ -4,7 +4,7 @@ export const Graph = ({ name, model }) => (
   <iframe
     src={`${BASE_URL}/${model}/${name}.html`}
     title={`${model}/${name}`}
-    width='1000px'
+    width='1100px'
     height='500px'
   />
 );

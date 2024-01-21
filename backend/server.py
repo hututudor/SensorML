@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
 import sys
+
 sys.path.append('..')
 from src.lstm.lstm_service import LSTMService
 from src.prophet.prophet_service import ProphetService
@@ -31,7 +32,6 @@ diseases = {
     },
 }
 
-
 results_store = {}
 app = Flask(__name__)
 CORS(app)
@@ -42,9 +42,11 @@ seq2seq_service = None
 
 result = {}
 
+
 @app.route('/<path:filename>')
 def serve_file(filename):
     return send_from_directory('../static/predictions_plots', filename)
+
 
 @app.route('/data', methods=['POST'])
 def predict_data():
@@ -69,14 +71,15 @@ def predict_data():
     # Seq2Seq
     service.predict(test_data)
     service.generate_plots()
+    seq2seq_risks = service.create_disease_risk()
 
     global result
     result = {
-        "lstm": lstm_risks
+        "lstm": lstm_risks,
+        "seq2seq": seq2seq_risks
     }
 
-    return jsonify({ })
-
+    return jsonify({})
 
 
 @app.route('/data', methods=['GET'])
@@ -85,11 +88,10 @@ def get_data():
     return jsonify(result)
 
 
-
 if __name__ == '__main__':
     data = pd.read_csv("../static/SensorMLTrainDataset.csv")
     service = Seq2SeqService(data)
-    service.train(epochs=4, batch_size=32)
+    service.train(epochs=4, batch_size=64)
 
     data = pd.read_csv("../static/SensorMLTrainDataset.csv")
     lstm_service = LSTMService(data)

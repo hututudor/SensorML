@@ -46,8 +46,8 @@ class LSTMService:
         X, y = [], []
 
         for i in range(len(train_data) - self.seq_len):
-            X.append(train_data[i:i + self.seq_len, :])  # change to include all attributes
-            y.append(train_data[i + self.seq_len, :])  # change to include all attributes
+            X.append(train_data[i:i + self.seq_len, :])
+            y.append(train_data[i + self.seq_len, :])
 
         X = np.array(X)
         y = np.array(y)
@@ -104,8 +104,8 @@ class LSTMService:
         X_test, y_test = [], []
 
         for i in range(len(data) - self.seq_len):
-            X_test.append(data[i:i + self.seq_len, :])  # change to include all attributes
-            y_test.append(data[i + self.seq_len, :])  # change to include all attributes
+            X_test.append(data[i:i + self.seq_len, :])
+            y_test.append(data[i + self.seq_len, :])
 
         X_test = np.array(X_test)
         y_test = np.array(y_test)
@@ -119,17 +119,42 @@ class LSTMService:
 
         return y_pred_test, y_test
 
-    def plot_predictions(self, y_pred_test, y_test, path):
+    def plot_predictions(self, y_pred_test, y_test, data_mean, data_std, path):
         last_timestamp = self.data['Timestamp'].max()
         additional_df = pd.date_range(start=last_timestamp, periods=168, freq='H')[1:]
         additional_df = pd.DataFrame({'Timestamp': additional_df})
         for i in range(y_pred_test.shape[1]):
+            denormalized_y_pred = y_pred_test[:, i] * data_std[i] + data_mean[i]
+            denormalized_y_test = y_test[:, i] * data_std[i] + data_mean[i]
             fig = go.Figure()
-            fig.add_trace(dict(x=additional_df['Timestamp'], y=y_test[:, i], mode='lines', name='Actual'))
-            fig.add_trace(dict(x=additional_df['Timestamp'], y=y_pred_test[:, i], mode='lines', name='Predicted'))
+            fig.add_trace(dict(x=additional_df['Timestamp'], y=denormalized_y_test, mode='lines', name='Actual'))
+            fig.add_trace(dict(x=additional_df['Timestamp'], y=denormalized_y_pred, mode='lines', name='Predicted'))
             fig.update_layout(title=f"LSTM predictions for {self.data.columns[i + 1]}", title_x=0.5, xaxis_title="Time",
-                              yaxis_title="Normalized value")
+                              yaxis_title="Value")
             fig.write_html(f"{path}/{self.data.columns[i + 1]}.html")
+
+    @staticmethod
+    def calculate_disease_risk(y_pred_test, data_mean, data_std, diseases):
+        temps = y_pred_test[:, 1] * data_std[1] + data_mean[1]
+        humidities = y_pred_test[:, 2] * data_std[2] + data_mean[2]
+
+        temps = temps.tolist()
+        humidities = humidities.tolist()
+
+        avg_predicted_temps = [sum(temps[i * 24:(i + 1) * 24]) / 24 for i in range(7)]
+        avg_predicted_humidities = [sum(humidities[i * 24:(i + 1) * 24]) / 24 for i in range(7)]
+
+        result_dict = dict()
+
+        for disease_name, disease_ranges in diseases.items():
+            risk_days = 0
+            for day in range(7):
+                if disease_ranges['temp'][0] <= avg_predicted_temps[day] <= disease_ranges['temp'][1] and \
+                        disease_ranges['umid'][0] <= avg_predicted_humidities[day] <= disease_ranges['umid'][1]:
+                    risk_days += 1
+            result_dict[disease_name] = risk_days / 7
+
+        return result_dict
 
     @staticmethod
     def plot_losses(train_losses, path):
@@ -140,12 +165,39 @@ class LSTMService:
 
 
 # Example usage
-# data = pd.read_csv("../../static/SensorMLTestDataset.csv")
+# data = pd.read_csv("../../static/SensorMLTrainDataset.csv")
 # lstm_service = LSTMService(data)
 # train_losses = lstm_service.train(num_epochs=100, batch_size=64)
 # lstm_service.plot_losses(train_losses, path="../../static/predictions_plots/lstm")
 #
 # test_data = pd.read_csv("../../static/SensorMLTestDataset.csv")
 # y_pred_test, y_test = lstm_service.predict(test_data)
-# lstm_service.plot_predictions(y_pred_test, y_test, path="../../static/predictions_plots/lstm")
-
+#
+# data_mean = test_data.drop("Timestamp", axis=1).mean().to_numpy()
+# data_std = test_data.drop("Timestamp", axis=1).std().to_numpy()
+# lstm_service.plot_predictions(y_pred_test, y_test, data_mean, data_std, path="../../static/predictions_plots/lstm")
+#
+# diseases = {
+#     "early_blight": {
+#         "temp": [24, 29],
+#         "umid": [90, 100]
+#     },
+#     "gray_mold": {
+#         "temp": [17, 23],
+#         "umid": [90, 100]
+#     },
+#     "late_blight": {
+#         "temp": [10, 24],
+#         "umid": [90, 100]
+#     },
+#     "leaf_mold": {
+#         "temp": [21, 24],
+#         "umid": [85, 100]
+#     },
+#     "powdery_mildew": {
+#         "temp": [22, 30],
+#         "umid": [50, 75]
+#     },
+# }
+# risks = LSTMService.calculate_disease_risk(y_pred_test, data_mean, data_std, diseases)
+# print(risks)

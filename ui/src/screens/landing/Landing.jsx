@@ -22,8 +22,8 @@ export const Landing = () => {
 
     setLoading(true);
 
-    const { id } = await uploadData(file);
-    navigate(`/results/${id}`);
+    await uploadData(file);
+    navigate(`/results`);
 
     setLoading(false);
   };

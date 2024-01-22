@@ -14,17 +14,21 @@ import {
 export const Info = () => (
   <Flex width='100vw' justifyContent='center'>
     <Box my={20}>
-      <Text fontSize='24' fontWeight='600' mb={8}>
-        Common diseases and symptoms
-      </Text>
+      <Flex flexDir='column' alignItems='center'>
+        <Text fontSize='24' fontWeight='600' mb={8}>
+          Optimal conditions for diseases
+        </Text>
 
-      <DiseasesTable />
+        <OptimalDiseaseConditionsTable />
+      </Flex>
 
-      <Text fontSize='24' fontWeight='600' mb={8} mt={16}>
-        Optimal conditions for diseases
-      </Text>
+      <Flex flexDir='column' alignItems='center' mt={16}>
+        <Text fontSize='24' fontWeight='600' mb={8}>
+          Common diseases and symptoms
+        </Text>
 
-      <OptimalDiseaseConditionsTable />
+        <DiseasesTable />
+      </Flex>
     </Box>
   </Flex>
 );

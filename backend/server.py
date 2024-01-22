@@ -9,7 +9,7 @@ from src.prophet.prophet_service import ProphetService
 from src.seq2seq.seq2seq_service import Seq2SeqService
 from flask import send_from_directory
 
-EPOCHS = 100
+EPOCHS = 20
 
 diseases = {
     "early_blight": {
@@ -67,18 +67,20 @@ def predict_data():
 
     lstm_risks = LSTMService.calculate_disease_risk(y_pred_test, data_mean, data_std, diseases)
 
-    # Prophet
-    prophet_service.plot_predictions(test_data)
-
     # Seq2Seq
     service.predict(test_data)
     service.generate_plots()
     seq2seq_risks = service.create_disease_risk()
 
+    # Prophet
+    prophet_service.plot_predictions(test_data)
+    prophet_risks = prophet_service.create_disease_risks()
+
     global result
     result = {
         "lstm": lstm_risks,
-        "seq2seq": seq2seq_risks
+        "seq2seq": seq2seq_risks,
+        "prophet": prophet_risks
     }
 
     return jsonify({})

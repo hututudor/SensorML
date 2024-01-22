@@ -49,7 +49,7 @@ class ProphetService:
                 xaxis_title="Time",
                 yaxis_title="Value",
             )
-            figure.write_html(f"../../static/predictions_plots/prophet/{column}.html")
+            figure.write_html(f"../static/predictions_plots/prophet/{column}.html")
 
     def create_disease_risks(self) -> dict:
         self.test_data["Timestamp"] = pd.to_datetime(self.test_data["Timestamp"])
